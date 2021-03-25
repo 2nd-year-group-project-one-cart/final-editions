@@ -496,7 +496,11 @@
         endwhile;
     }
 
+
+    function view_order1(){
+
     function view_order(){
+
         include("include/db.php");
 
         $fetch_cart=$con->prepare("SELECT * FROM cart");
@@ -804,4 +808,178 @@
                  </tr>";
         endwhile;
     }
+
+
+    function view_Normalorder(){
+      include("include/db.php");
+
+      $fetch_order=$con->prepare("SELECT * FROM ordertest WHERE urgent='Normal Order'");
+      $fetch_order->setFetchMode(PDO:: FETCH_ASSOC);
+      $fetch_order->execute();
+
+      $fetch_cart=$con->prepare("SELECT * FROM cart");
+      $fetch_cart->setFetchMode(PDO:: FETCH_ASSOC);
+      $fetch_cart->execute();
+      // $row_cart=$fetch_cart->fetch();
+      // $id1=$row_cart['pro_id'];
+      // $id2=$row_cart['userid'];
+      $row_check=$fetch_cart->rowCount();
+
+      $fetch_user=$con->prepare("SELECT u_id, u_name FROM user"); // WHERE u_id='$id2'
+      $fetch_user->setFetchMode(PDO:: FETCH_ASSOC);
+      $fetch_user->execute();
+      $row_user=$fetch_user->fetch();
+
+
+      if($row_check > 0){
+
+          $i=1;
+          $net_total=0;
+
+          while($row_cart=$fetch_cart->fetch() and $row_order=$fetch_order->fetch()):
+              $id1=$row_cart['pro_id'];
+
+              $fetch_pro=$con->prepare("SELECT pro_id, pro_name, pro_img1, pro_weight, pro_price FROM products WHERE pro_id='$id1'");
+              $fetch_pro->setFetchMode(PDO:: FETCH_ASSOC);
+              $fetch_pro->execute();
+              $row_pro=$fetch_pro->fetch();
+
+              $sub_total=$row_pro['pro_price'] * $row_cart['qnty'];
+              $net_total=$net_total+$sub_total;
+
+              echo "<tr>
+                      <td style='min-width:100px'>".$i++."</td>
+                      <td style='min-width:100px'>".$row_order['u_id']."</td>
+                      <td style='min-width:130px'>".$row_user['u_name']."</td>
+                      <td style='min-width:150px'>".$row_order['o_date']."</td>
+                      <td>".$row_order['urgent']."</td>
+                      <td><b>RS $net_total /= </b></td>
+                      <td style='min-width:80px'><a href='indexmanager.php?view_Normalorder_VIEW=".$row_order['u_id']."'>View<a/></td>
+                  </tr>";
+
+          endwhile;
+
+      }
+      else{
+        echo "<center><h2>Nothing To Display.</br>
+                          No One Order Foods From Your Shop....!!!</h2></center>";
+      }
+    }
+
+    function view_Urgentorder(){
+      include("include/db.php");
+
+      $fetch_order=$con->prepare("SELECT * FROM ordertest WHERE urgent='Urgent Order'");
+      $fetch_order->setFetchMode(PDO:: FETCH_ASSOC);
+      $fetch_order->execute();
+
+      $fetch_cart=$con->prepare("SELECT * FROM cart");
+      $fetch_cart->setFetchMode(PDO:: FETCH_ASSOC);
+      $fetch_cart->execute();
+      // $row_cart=$fetch_cart->fetch();
+      // $id1=$row_cart['pro_id'];
+      // $id2=$row_cart['userid'];
+      $row_check=$fetch_cart->rowCount();
+
+      $fetch_user=$con->prepare("SELECT u_id, u_name FROM user"); // WHERE u_id='$id2'
+      $fetch_user->setFetchMode(PDO:: FETCH_ASSOC);
+      $fetch_user->execute();
+      $row_user=$fetch_user->fetch();
+
+
+      if($row_check > 0){
+
+          $i=1;
+          $net_total=0;
+
+          while($row_cart=$fetch_cart->fetch() and $row_order=$fetch_order->fetch()):
+              $id1=$row_cart['pro_id'];
+
+              $fetch_pro=$con->prepare("SELECT pro_id, pro_name, pro_img1, pro_weight, pro_price FROM products WHERE pro_id='$id1'");
+              $fetch_pro->setFetchMode(PDO:: FETCH_ASSOC);
+              $fetch_pro->execute();
+              $row_pro=$fetch_pro->fetch();
+
+              $sub_total=$row_pro['pro_price'] * $row_cart['qnty'];
+              $net_total=$net_total+$sub_total;
+
+              echo "<tr>
+                      <td style='min-width:100px'>".$i++."</td>
+                      <td style='min-width:100px'>".$row_order['u_id']."</td>
+                      <td style='min-width:130px'>".$row_user['u_name']."</td>
+                      <td style='min-width:150px'>".$row_order['o_date']."</td>
+                      <td>".$row_order['urgent']."</td>
+                      <td><b>RS $net_total /= </b></td>
+                      <td style='min-width:80px'><a href='indexmanager.php?view_Urgentorder_VIEW=".$row_order['u_id']."'>View<a/></td>
+                  </tr>";
+
+          endwhile;
+
+      }
+      else{
+        echo "<center><h2>Nothing To Display.</br>
+                          No One Order Foods From Your Shop....!!!</h2></center>";
+      }
+    }
+
+    function view_order(){
+        include("include/db.php");
+
+        $fetch_cart=$con->prepare("SELECT * FROM cart");
+        $fetch_cart->setFetchMode(PDO:: FETCH_ASSOC);
+        $fetch_cart->execute();
+        // $row_cart=$fetch_cart->fetch();
+        // $id1=$row_cart['pro_id'];
+        // $id2=$row_cart['userid'];
+        $row_check=$fetch_cart->rowCount();
+
+        $fetch_user=$con->prepare("SELECT u_id, u_name FROM user"); // WHERE u_id='$id2'
+        $fetch_user->setFetchMode(PDO:: FETCH_ASSOC);
+        $fetch_user->execute();
+        $row_user=$fetch_user->fetch();
+
+
+        if($row_check > 0){
+
+            $i=1;
+            $net_total=0;
+
+            while($row_cart=$fetch_cart->fetch()):
+                $id1=$row_cart['pro_id'];
+
+                $fetch_pro=$con->prepare("SELECT pro_id, pro_name, pro_img1, pro_weight, pro_price FROM products WHERE pro_id='$id1'");
+                $fetch_pro->setFetchMode(PDO:: FETCH_ASSOC);
+                $fetch_pro->execute();
+                $row_pro=$fetch_pro->fetch();
+
+                $sub_total=$row_pro['pro_price'] * $row_cart['qnty'];
+                $net_total=$net_total+$sub_total;
+
+                echo "<tr>
+                        <td style='min-width:100px'>".$i++."</td>
+                        <td style='min-width:100px'>".$row_user['u_id']."</td>
+                        <td style='min-width:130px'>".$row_user['u_name']."</td>
+                        <td style='min-width:100px'>".$row_cart['cart_id']."</td>
+                        <td style='min-width:100px'>".$row_pro['pro_id']."</td>
+                        <td style='min-width:150px'>".$row_cart['addDate']."</td>
+                        <td style='min-width:150px'>".$row_pro['pro_name']."</td>
+                        <td style='min-width:135px'>
+                            <img src='../images/pro_img/".$row_pro['pro_img1']."' />
+                        </td>
+                        <td>".$row_pro['pro_weight']."</td>
+                        <td>".$row_pro['pro_price']."/=</td>
+                        <td>".$row_cart['qnty']."</td>
+
+                        <td>".$sub_total."/=</td>
+
+                    </tr>";
+
+            endwhile;
+        }
+        else{
+          echo "<center><h2>Nothing To Display.</br>
+                            No One Order Foods From Your Shop....!!!</h2></center>";
+        }
+    }
+
 ?>
